@@ -4,21 +4,22 @@ import theano
 import theano.tensor as T
 import numpy as np
 
-trX = np.linspace(-1, 1, 101)
-trY = 2 * trX - np.random.randn(*trX.shape) * 0.33
+trX = np.linspace(-1, 1, 101)   # input data for training  
+trY = 2 * trX - np.random.randn(*trX.shape) * 0.33  # target data for training 
 
 print("trX : ", trX)
 print("trY : ", trY)
 
-X = T.scalar()
-Y = T.scalar()
+X = T.scalar()      # symbolic variable for 'trX'
+Y = T.scalar()      # symbolic variable for 'trY'
 
 def model(X, w):
     #return X * w
     #return T.tanh(X * w)
     return T.minimum(0, X * w)
 
-w = theano.shared(np.asarray(0, dtype=theano.config.floatX))
+w = theano.shared(np.asarray(0, dtype=theano.config.floatX))    # weight shared variable
+print("w : ", w.get_value())
 y = model(X, w)
 
 cost = T.mean(T.sqr(y - Y))
